@@ -41,6 +41,9 @@ def make_celery(app):
 
     # register task functions into Celery app, and bind function to Flask app.
     for func_name in celery_tasks:
-        setattr(app, func_name, celery.task(celery_tasks[func_name]))
+        if not getattr(app, func_name, None):
+            setattr(app, func_name, celery.task(celery_tasks[func_name]))
+        else:
+            raise ValueError(f"Repated name '{func_name}'")
 
     return celery

@@ -44,6 +44,6 @@ def make_celery(app):
         if not getattr(app, func_name, None):
             setattr(app, func_name, celery.task(celery_tasks[func_name]))
         else:
-            raise ValueError(f"Repated name '{func_name}'")
+            raise ValueError(f"Repated name '{func_name}'")     # noqa
 
     return celery

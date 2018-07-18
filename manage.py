@@ -6,9 +6,14 @@ from app import create_app
 from config import config
 
 app = create_app(config[os.getenv('FLASK_ENV') or 'default'])
-celery_app = app.celery_app
+
+# add celery apps to module namespace
+for name, celery_app in app.celery_apps.items():
+    if name in globals():
+        raise NameError(f"Celery app name '{name}' is repeated.")   # noqa
+    globals()[name] = celery_app
 
 
 @app.shell_context_processor
 def make_shell_context():
-    return dict(celery_app=celery_app)
+    return dict(**app.celery_apps)

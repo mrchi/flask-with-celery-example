@@ -127,9 +127,7 @@ celery worker -A manage:factorial_app -l info
 1. 在创建 Celery 任务时创建 Celery App，从配置文件中更新配置；
 2. 构建 `init_app(flask_app)` 方法，进行 `celeryapp.Task` 类的重写，并把 Celery app 对象存储到 `flask_app.celery_apps` 属性中。
 3. 在 Flask 的 Factory Function 中，调用 `init_app` 方法；
-4. 在 Flask 的启动脚本中，从 `flask_app.celery_apps` 属性中取出 Celery app
-
-，绑定到当前模块的全局命名空间 `globals()`；
+4. 在 Flask 的启动脚本中，从 `flask_app.celery_apps` 属性中取出 Celery app，绑定到当前模块的全局命名空间 `globals()`；
 
 5. 从 Flask 的启动脚本中启动 Celery app worker；
 
